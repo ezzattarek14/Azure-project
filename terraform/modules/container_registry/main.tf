@@ -2,8 +2,15 @@
 # Container Registry Module: Azure Container Registry (ACR)
 # =========================================================
 
+# Random string suffix for globally unique ACR name
+resource "random_string" "acr_suffix" {
+  length  = 6
+  special = false
+  upper   = false
+}
+
 resource "azurerm_container_registry" "acr" {
-  name                = var.acr_name_prefix
+  name                = "${var.acr_name_prefix}${random_string.acr_suffix.result}"
   resource_group_name = var.resource_group_name
   location            = var.location
   sku                 = var.sku # Basic SKU is free-tier / budget friendly
