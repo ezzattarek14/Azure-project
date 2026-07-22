@@ -149,13 +149,16 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           ARM_USE_OIDC: true
+          ARM_USE_AZUREAD: true
         run: |
           cd terraform
           terraform init \
             -backend-config="resource_group_name=${{ secrets.TF_STATE_RG }}" \
             -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
             -backend-config="container_name=tfstate" \
-            -backend-config="key=production.tfstate"
+            -backend-config="key=production.tfstate" \
+            -backend-config="use_oidc=true" \
+            -backend-config="use_azuread=true"
 
       - name: Terraform Apply (Automated Production Deployment)
         env:
@@ -163,6 +166,7 @@ jobs:
           ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           ARM_USE_OIDC: true
+          ARM_USE_AZUREAD: true
         run: |
           cd terraform
           terraform apply -auto-approve \

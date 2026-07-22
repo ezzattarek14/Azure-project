@@ -22,6 +22,8 @@ terraform {
     storage_account_name = "sttfstatedev3tier"
     container_name       = "tfstate"
     key                  = "terraform.tfstate"
+    use_oidc             = true
+    use_azuread          = true
   }
 }
 
