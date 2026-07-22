@@ -1,5 +1,5 @@
 environment       = "dev"
-location          = "eastus"
+location          = "eastus2"
 app_name          = "azure3tier"
 db_admin_username = "pgadmin"
 db_admin_password = "SecurePassword123!"
