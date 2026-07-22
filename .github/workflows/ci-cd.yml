@@ -157,8 +157,7 @@ jobs:
             -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
             -backend-config="container_name=tfstate" \
             -backend-config="key=production.tfstate" \
-            -backend-config="use_oidc=true" \
-            -backend-config="use_azuread=true"
+            -backend-config="use_oidc=true"
 
       - name: Terraform Apply (Automated Production Deployment)
         env:
