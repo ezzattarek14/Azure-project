@@ -33,8 +33,8 @@ resource "azurerm_postgresql_flexible_server" "postgres" {
 
   storage_mb = 32768 # 32GB (Smallest tier for Free/Low Cost)
 
-  sku_name   = "B_Standard_B1ms" # Burstable 1 vCPU, 2GB RAM (Free Tier eligible)
-  zone       = "1"
+  sku_name = "B_Standard_B1ms" # Burstable 1 vCPU, 2GB RAM (Free Tier eligible)
+  zone     = "1"
 
   delegated_subnet_id = var.db_subnet_id
   private_dns_zone_id = azurerm_private_dns_zone.postgres_dns.id
