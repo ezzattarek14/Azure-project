@@ -150,11 +150,15 @@ jobs:
           ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
           ARM_USE_OIDC: true
           ARM_USE_AZUREAD: true
+          TF_STATE_RG: ${{ secrets.TF_STATE_RG }}
+          TF_STATE_STORAGE_ACCOUNT: ${{ secrets.TF_STATE_STORAGE_ACCOUNT }}
         run: |
           cd terraform
+          STORAGE_ACCOUNT="${TF_STATE_STORAGE_ACCOUNT:-sttfstatedev3tier}"
+          RG_NAME="${TF_STATE_RG:-rg-terraform-state-dev}"
           terraform init \
-            -backend-config="resource_group_name=${{ secrets.TF_STATE_RG }}" \
-            -backend-config="storage_account_name=${{ secrets.TF_STATE_STORAGE_ACCOUNT }}" \
+            -backend-config="resource_group_name=${RG_NAME}" \
+            -backend-config="storage_account_name=${STORAGE_ACCOUNT}" \
             -backend-config="container_name=tfstate" \
             -backend-config="key=production.tfstate" \
             -backend-config="use_oidc=true"
