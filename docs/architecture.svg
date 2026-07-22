@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 600" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0f172a" />
+      <stop offset="100%" stop-color="#1e293b" />
+    </linearGradient>
+    <linearGradient id="azureGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#0078d4" />
+      <stop offset="100%" stop-color="#00bcf2" />
+    </linearGradient>
+    <linearGradient id="cardGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#1e293b" />
+      <stop offset="100%" stop-color="#0f172a" />
+    </linearGradient>
+    <filter id="shadow" x="-5%" y="-5%" width="110%" height="110%">
+      <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="900" height="600" fill="url(#bgGrad)" rx="16" />
+
+  <!-- Header Banner -->
+  <rect x="30" y="25" width="840" height="60" fill="url(#azureGrad)" rx="10" filter="url(#shadow)" />
+  <text x="50" y="60" font-family="Inter, sans-serif" font-size="20" font-weight="bold" fill="#ffffff">Azure 3-Tier Web Application Architecture</text>
+  <text x="650" y="60" font-family="Inter, sans-serif" font-size="13" font-weight="600" fill="#ffffff">Terraform &amp; GitHub Actions</text>
+
+  <!-- Azure Resource Group Box -->
+  <rect x="30" y="105" width="840" height="465" fill="none" stroke="#0078d4" stroke-width="2" stroke-dasharray="6,6" rx="12" />
+  <text x="45" y="130" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#00bcf2">Resource Group: rg-azure3tier-dev-eastus</text>
+
+  <!-- VNet Box -->
+  <rect x="50" y="145" width="800" height="410" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5" rx="10" />
+  <text x="65" y="170" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#94a3b8">Virtual Network (VNet): 10.0.0.0/16</text>
+
+  <!-- Subnet 1: Frontend -->
+  <rect x="70" y="190" width="230" height="250" fill="url(#cardGrad)" stroke="#10b981" stroke-width="1.5" rx="8" filter="url(#shadow)" />
+  <text x="85" y="215" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#10b981">TIER 1: FRONTEND SUBNET</text>
+  <text x="85" y="232" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">10.0.1.0/24 (NSG: Port 80, 443)</text>
+  <rect x="85" y="250" width="200" height="170" fill="rgba(16, 185, 129, 0.1)" stroke="#10b981" stroke-width="1" rx="6" />
+  <text x="100" y="280" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Container App: Frontend</text>
+  <text x="100" y="300" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• SPA (Nginx Alpine)</text>
+  <text x="100" y="320" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Ingress: Public HTTP</text>
+  <text x="100" y="340" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Non-Root Execution</text>
+  <text x="100" y="380" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#10b981">HTTP 80 → Port 80</text>
+
+  <!-- Subnet 2: Backend -->
+  <rect x="335" y="190" width="230" height="250" fill="url(#cardGrad)" stroke="#00bcf2" stroke-width="1.5" rx="8" filter="url(#shadow)" />
+  <text x="350" y="215" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#00bcf2">TIER 2: BACKEND SUBNET</text>
+  <text x="350" y="232" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">10.0.2.0/24 (NSG: Port 5000)</text>
+  <rect x="350" y="250" width="200" height="170" fill="rgba(0, 188, 242, 0.1)" stroke="#00bcf2" stroke-width="1" rx="6" />
+  <text x="365" y="280" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">Container App: Backend</text>
+  <text x="365" y="300" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Node.js / Express API</text>
+  <text x="365" y="320" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Health Probes (/health)</text>
+  <text x="365" y="340" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Managed Identity (ACR)</text>
+  <text x="365" y="380" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#00bcf2">REST API Port 5000</text>
+
+  <!-- Subnet 3: Database -->
+  <rect x="600" y="190" width="230" height="250" fill="url(#cardGrad)" stroke="#f59e0b" stroke-width="1.5" rx="8" filter="url(#shadow)" />
+  <text x="615" y="215" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#f59e0b">TIER 3: DATABASE SUBNET</text>
+  <text x="615" y="232" font-family="Inter, sans-serif" font-size="10" fill="#94a3b8">10.0.3.0/24 (NSG: Port 5432 Only)</text>
+  <rect x="615" y="250" width="200" height="170" fill="rgba(245, 158, 11, 0.1)" stroke="#f59e0b" stroke-width="1" rx="6" />
+  <text x="630" y="280" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#ffffff">PostgreSQL Flexible</text>
+  <text x="630" y="300" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• SKU: B_Standard_B1ms</text>
+  <text x="630" y="320" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Enforced TLS 1.2 SSL</text>
+  <text x="630" y="340" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">• Private DNS Integration</text>
+  <text x="630" y="380" font-family="Inter, sans-serif" font-size="10" font-weight="bold" fill="#f59e0b">No Public Access</text>
+
+  <!-- Connecting Arrows -->
+  <path d="M 300 315 L 335 315" stroke="#10b981" stroke-width="2" marker-end="url(#arrow)" />
+  <path d="M 565 315 L 600 315" stroke="#00bcf2" stroke-width="2" marker-end="url(#arrow)" />
+
+  <!-- Shared Services (ACR + Log Analytics) -->
+  <rect x="70" y="460" width="360" height="75" fill="rgba(15, 23, 42, 0.8)" stroke="#475569" stroke-width="1" rx="8" />
+  <text x="85" y="485" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">Azure Container Registry (ACR)</text>
+  <text x="85" y="505" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">Stores Docker Images with AcrPull Managed Identity</text>
+
+  <rect x="470" y="460" width="360" height="75" fill="rgba(15, 23, 42, 0.8)" stroke="#475569" stroke-width="1" rx="8" />
+  <text x="485" y="485" font-family="Inter, sans-serif" font-size="12" font-weight="bold" fill="#ffffff">Azure Monitor &amp; App Insights</text>
+  <text x="485" y="505" font-family="Inter, sans-serif" font-size="11" fill="#94a3b8">Log Analytics Workspace + Metric Alert (CPU > 80%)</text>
+</svg>

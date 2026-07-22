@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Azure 3-Tier Web Application - Cloud & DevOps Engineering Take-Home Assessment">
+  <title>Azure 3-Tier Dashboard | Cloud & DevOps Engineering</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-container">
+    <!-- Header -->
+    <header class="header">
+      <div class="logo-group">
+        <div class="azure-badge">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Azure 3-Tier Architecture</h1>
+          <p class="subtitle">Cloud & DevOps Mid-Level Assessment • Terraform & GitHub Actions</p>
+        </div>
+      </div>
+      <div class="env-tag">
+        <span class="pulse-dot"></span>
+        <span id="env-name">AZURE CLOUD</span>
+      </div>
+    </header>
+
+    <!-- Architecture Status Panel -->
+    <section class="status-grid">
+      <!-- Tier 1: Frontend -->
+      <div class="status-card">
+        <div class="tier-label">TIER 1: FRONTEND</div>
+        <h3>Static SPA / Nginx</h3>
+        <div class="status-indicator online">
+          <span class="status-dot"></span>
+          <span id="frontend-status">HEALTHY</span>
+        </div>
+        <p class="card-desc">Served via Nginx Alpine container inside Azure Container Apps</p>
+      </div>
+
+      <!-- Tier 2: Backend -->
+      <div class="status-card">
+        <div class="tier-label">TIER 2: BACKEND API</div>
+        <h3>Node.js / Express API</h3>
+        <div class="status-indicator" id="backend-status-badge">
+          <span class="status-dot"></span>
+          <span id="backend-status">CHECKING...</span>
+        </div>
+        <p class="card-desc">Containerized API with REST endpoints & health checks</p>
+      </div>
+
+      <!-- Tier 3: Database -->
+      <div class="status-card">
+        <div class="tier-label">TIER 3: DATABASE</div>
+        <h3>Azure PostgreSQL</h3>
+        <div class="status-indicator" id="db-status-badge">
+          <span class="status-dot"></span>
+          <span id="db-status">CHECKING...</span>
+        </div>
+        <p class="card-desc">Managed Flexible Server with SSL encryption & private subnet</p>
+      </div>
+    </section>
+
+    <!-- Main Content: Data & Interactive Items -->
+    <main class="main-content">
+      <div class="content-header">
+        <h2>Live System Items</h2>
+        <button class="btn btn-primary" id="btn-refresh">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+          Refresh Data
+        </button>
+      </div>
+
+      <!-- Add Item Form -->
+      <div class="card form-card">
+        <h3>Create New Infrastructure Record</h3>
+        <form id="item-form" class="item-form">
+          <div class="form-group">
+            <label for="item-title">Item Title</label>
+            <input type="text" id="item-title" placeholder="e.g. Terraform VNet Module" required>
+          </div>
+          <div class="form-group">
+            <label for="item-desc">Description</label>
+            <input type="text" id="item-desc" placeholder="e.g. Configured with NSG rules for subnets" required>
+          </div>
+          <button type="submit" class="btn btn-accent">Add Item</button>
+        </form>
+      </div>
+
+      <!-- Items Grid -->
+      <div id="items-list" class="items-grid">
+        <div class="loading-spinner">Loading items from Tier 2 API...</div>
+      </div>
+    </main>
+
+    <!-- Infrastructure Specs -->
+    <footer class="footer">
+      <div class="footer-info">
+        <span>Provisioned via: <strong>Terraform (azurerm)</strong></span> • 
+        <span>CI/CD: <strong>GitHub Actions + Azure OIDC</strong></span> • 
+        <span>Security: <strong>Non-root Container + SSL Enforced</strong></span>
+      </div>
+    </footer>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
