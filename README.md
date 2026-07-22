@@ -20,8 +20,8 @@ graph TD
         User["🌐 User Browser"]
     end
 
-    subgraph Azure["Azure Subscription (East US)"]
-        subgraph RG["Resource Group: rg-azure3tier-dev-eastus"]
+    subgraph Azure["Azure Subscription (Central US)"]
+        subgraph RG["Resource Group: rg-azure3tier-dev-centralus"]
             
             subgraph VNet["Virtual Network: 10.0.0.0/16"]
                 
@@ -235,7 +235,7 @@ In a enterprise environment serving millions of requests:
 
 To verify that the automated solution is operational:
 1. **GitHub Actions Pipeline Run**: Verify all 4 jobs (`Build & Test`, `Security Scan`, `Build & Push Docker`, `Deploy Infrastructure`) pass cleanly with green checkmarks.
-2. **Azure Portal Verification**: Confirm Resource Group `rg-azure3tier-dev-eastus` contains VNet, 3 Subnets, Container App Environment, ACR, PostgreSQL Flexible Server, and Log Analytics Workspace.
+2. **Azure Portal Verification**: Confirm Resource Group `rg-azure3tier-dev-centralus` contains VNet, 3 Subnets, Container App Environment, ACR, PostgreSQL Flexible Server, and Log Analytics Workspace.
 3. **Live Endpoint Health Check**: Curling `/health` endpoint on the deployed backend URL returns:
    ```json
    {

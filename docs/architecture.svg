@@ -27,7 +27,7 @@
 
   <!-- Azure Resource Group Box -->
   <rect x="30" y="105" width="840" height="465" fill="none" stroke="#0078d4" stroke-width="2" stroke-dasharray="6,6" rx="12" />
-  <text x="45" y="130" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#00bcf2">Resource Group: rg-azure3tier-dev-eastus</text>
+  <text x="45" y="130" font-family="Inter, sans-serif" font-size="13" font-weight="bold" fill="#00bcf2">Resource Group: rg-azure3tier-dev-centralus</text>
 
   <!-- VNet Box -->
   <rect x="50" y="145" width="800" height="410" fill="rgba(30, 41, 59, 0.4)" stroke="#334155" stroke-width="1.5" rx="10" />
