@@ -7,7 +7,7 @@ variable "environment" {
 variable "location" {
   type        = string
   description = "Azure region for resource deployment"
-  default     = "eastus"
+  default     = "centralus"
 }
 
 variable "app_name" {
