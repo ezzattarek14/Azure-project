@@ -160,6 +160,40 @@ jobs:
             -backend-config="key=production.tfstate" \
             -backend-config="use_oidc=true"
 
+      - name: Terraform Auto-Import Existing Container Apps
+        env:
+          ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          ARM_USE_OIDC: true
+          ARM_USE_AZUREAD: true
+        run: |
+          cd terraform
+          
+          # Check and import Backend Container App if exists in Azure but missing from state
+          if ! terraform state list 2>/dev/null | grep -q "module.compute.azurerm_container_app.backend"; then
+            BACKEND_ID=$(az containerapp show --name ca-backend-dev --resource-group rg-azure3tier-dev-centralus --query id -o tsv 2>/dev/null || echo "")
+            if [ -n "$BACKEND_ID" ]; then
+              echo "Importing existing backend Container App ($BACKEND_ID)..."
+              terraform import \
+                -var="container_image_tag=${{ github.sha }}" \
+                -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
+                module.compute.azurerm_container_app.backend "$BACKEND_ID" || true
+            fi
+          fi
+
+          # Check and import Frontend Container App if exists in Azure but missing from state
+          if ! terraform state list 2>/dev/null | grep -q "module.compute.azurerm_container_app.frontend"; then
+            FRONTEND_ID=$(az containerapp show --name ca-frontend-dev --resource-group rg-azure3tier-dev-centralus --query id -o tsv 2>/dev/null || echo "")
+            if [ -n "$FRONTEND_ID" ]; then
+              echo "Importing existing frontend Container App ($FRONTEND_ID)..."
+              terraform import \
+                -var="container_image_tag=${{ github.sha }}" \
+                -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
+                module.compute.azurerm_container_app.frontend "$FRONTEND_ID" || true
+            fi
+          fi
+
       - name: Terraform Apply (Automated Production Deployment)
         env:
           ARM_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
