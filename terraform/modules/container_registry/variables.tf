@@ -4,6 +4,12 @@ variable "acr_name" {
   default     = "crazure3tierdev"
 }
 
+variable "acr_resource_group_name" {
+  type        = string
+  description = "Resource group name where existing ACR is located"
+  default     = "rg-azure3tier-dev"
+}
+
 variable "location" {
   type        = string
   description = "Azure region"
@@ -11,7 +17,7 @@ variable "location" {
 
 variable "resource_group_name" {
   type        = string
-  description = "Resource group name"
+  description = "Resource group name for managed identity"
 }
 
 variable "environment" {

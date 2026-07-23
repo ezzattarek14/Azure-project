@@ -31,12 +31,13 @@ module "networking" {
 
 # 3. Container Registry Module (ACR + Managed Identity)
 module "container_registry" {
-  source              = "./modules/container_registry"
-  acr_name            = local.acr_name
-  location            = module.resource_group.location
-  resource_group_name = module.resource_group.name
-  environment         = var.environment
-  tags                = var.tags
+  source                  = "./modules/container_registry"
+  acr_name                = local.acr_name
+  acr_resource_group_name = var.acr_resource_group_name
+  location                = module.resource_group.location
+  resource_group_name     = module.resource_group.name
+  environment             = var.environment
+  tags                    = var.tags
 
   depends_on = [module.resource_group]
 }

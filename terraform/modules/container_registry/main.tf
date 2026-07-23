@@ -2,10 +2,10 @@
 # Container Registry Module: Azure Container Registry (ACR)
 # =========================================================
 
-# Reference existing ACR without random suffix
+# Reference existing ACR located in specified ACR resource group
 data "azurerm_container_registry" "acr" {
   name                = var.acr_name
-  resource_group_name = var.resource_group_name
+  resource_group_name = var.acr_resource_group_name
 }
 
 # User-Assigned Managed Identity for secure non-root Pull access

@@ -16,6 +16,12 @@ variable "app_name" {
   default     = "azure3tier"
 }
 
+variable "acr_resource_group_name" {
+  type        = string
+  description = "Resource group name where the existing ACR is located"
+  default     = "rg-azure3tier-dev"
+}
+
 variable "db_admin_username" {
   type        = string
   description = "Administrator username for PostgreSQL Flexible Server"
