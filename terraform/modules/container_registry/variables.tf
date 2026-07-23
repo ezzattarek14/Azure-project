@@ -1,6 +1,7 @@
-variable "acr_name_prefix" {
+variable "acr_name" {
   type        = string
-  description = "Prefix for Azure Container Registry name"
+  description = "Name of the existing Azure Container Registry"
+  default     = "crazure3tierdev"
 }
 
 variable "location" {
@@ -11,12 +12,6 @@ variable "location" {
 variable "resource_group_name" {
   type        = string
   description = "Resource group name"
-}
-
-variable "sku" {
-  type        = string
-  description = "ACR SKU (Basic, Standard, Premium)"
-  default     = "Basic"
 }
 
 variable "environment" {

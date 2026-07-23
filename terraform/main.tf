@@ -6,7 +6,7 @@
 locals {
   resource_group_name = "rg-${var.app_name}-${var.environment}-${var.location}"
   vnet_name           = "vnet-${var.app_name}-${var.environment}"
-  acr_name_prefix     = "cr${var.app_name}${var.environment}"
+  acr_name            = "crazure3tierdev"
   db_server_name      = "psql-${var.app_name}-${var.environment}"
 }
 
@@ -32,7 +32,7 @@ module "networking" {
 # 3. Container Registry Module (ACR + Managed Identity)
 module "container_registry" {
   source              = "./modules/container_registry"
-  acr_name_prefix     = local.acr_name_prefix
+  acr_name            = local.acr_name
   location            = module.resource_group.location
   resource_group_name = module.resource_group.name
   environment         = var.environment
