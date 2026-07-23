@@ -1,7 +1,7 @@
 # Azure 3-Tier Web Application Infrastructure & CI/CD Pipeline
 ## Cloud / DevOps Engineer — Mid-Level Technical Assessment
 
-[![CI/CD Pipeline](https://github.com/example/azure-3tier-devops/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/example/azure-3tier-devops/actions)
+[![CI/CD Pipeline](https://github.com/ezzattarek14/Azure-project/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/ezzattarek14/Azure-project/actions)
 [![Terraform](https://img.shields.io/badge/IaC-Terraform_v1.5+-purple.svg)](https://www.terraform.io/)
 [![Cloud Provider](https://img.shields.io/badge/Cloud-Azure_(Free_Tier)-0078D4.svg)](https://azure.microsoft.com/)
 [![Docker](https://img.shields.io/badge/Container-Docker_Multi--stage-2496ED.svg)](https://www.docker.com/)
@@ -88,6 +88,7 @@ graph TD
 │       ├── src/                  # Modern Glassmorphism HTML/CSS/JS Dashboard
 │       ├── Dockerfile            # Production Nginx Alpine container
 │       └── nginx.conf            # Security headers & backend API proxy configuration
+├── photos/                       # Deployment evidence screenshots & verification gallery
 ├── terraform/                    # Modularized Infrastructure as Code
 │   ├── main.tf                   # Root orchestration module
 │   ├── variables.tf              # Global inputs & environment parameters
@@ -140,8 +141,8 @@ docker run --rm local-backend:latest id
 ### 1. Run the Entire 3-Tier Stack Locally
 ```bash
 # Clone the repository
-git clone https://github.com/example/azure-3tier-devops.git
-cd azure-3tier-devops
+git clone https://github.com/ezzattarek14/Azure-project.git
+cd Azure-project
 
 # Start Frontend, Backend, and PostgreSQL containers
 docker compose up --build -d
@@ -214,7 +215,7 @@ The CI/CD pipeline is implemented using **GitHub Actions** (`.github/workflows/c
 *A half-page architectural deep dive on scaling, cost optimization, and high availability for enterprise production.*
 
 ### 1. Scale & Performance Optimization
-In a enterprise environment serving millions of requests:
+In an enterprise environment serving millions of requests:
 - **Autoscaling**: Configure Azure Container Apps to use **KEDA (Kubernetes Event-driven Autoscaling)** scaling rules based on real-time HTTP concurrency (e.g., scale out when concurrent requests per replica exceed 100) or CPU/Memory thresholds (`CPU > 70%`). Scale bounds set between 3 to 30 replicas per microservice.
 - **Database Scale**: Upgrade PostgreSQL Flexible Server from Burstable (`B-series`) to **Memory-Optimized (`E-series`)** with auto-growing storage and provisioned IOPS (vCore 8+, 64GB RAM). Deploy **Read Replicas** in secondary regions to offload heavy analytical read queries.
 - **Caching Layer**: Introduce an **Azure Cache for Redis** cluster in Tier 2 to cache frequently queried database records and reduce latency to <5ms.
@@ -225,26 +226,52 @@ In a enterprise environment serving millions of requests:
 - **Log Lifecycle Management**: Apply lifecycle management rules in Log Analytics to archive cold logs to Azure Blob Cold Storage after 30 days.
 
 ### 3. High Availability (HA) & Disaster Recovery (DR)
-- **Multi-Region Active-Passive / Active-Active**: Deploy the 3-tier stack across two paired Azure regions (e.g., `eastus` and `westus2`). Use **Azure Front Door** with active health probing to route global user traffic to the closest healthy region with sub-second failover.
+- **Multi-Region Active-Passive / Active-Active**: Deploy the 3-tier stack across two paired Azure regions (e.g., `eastus` and `centralus`). Use **Azure Front Door** with active health probing to route global user traffic to the closest healthy region with sub-second failover.
 - **Zone Redundancy**: Enable Zone Redundant HA on PostgreSQL Flexible Server, deploying a standby server in a separate Availability Zone (AZ) with synchronous block-level replication.
 - **Zero-Downtime Deployment**: Utilize Azure Container Apps' built-in **Revision Management** for **Blue/Green** and **Canary** deployments. Route 10% of production traffic to the new revision, run automated smoke tests, and gradually shift 100% of traffic without dropping active client connections.
 
 ---
 
-## 📸 9. Deployment Verification Evidence Guide
+## 📸 9. Live Deployment & Infrastructure Evidence Gallery
 
-To verify that the automated solution is operational:
-1. **GitHub Actions Pipeline Run**: Verify all 4 jobs (`Build & Test`, `Security Scan`, `Build & Push Docker`, `Deploy Infrastructure`) pass cleanly with green checkmarks.
-2. **Azure Portal Verification**: Confirm Resource Group `rg-azure3tier-dev-centralus` contains VNet, 3 Subnets, Container App Environment, ACR, PostgreSQL Flexible Server, and Log Analytics Workspace.
-3. **Live Endpoint Health Check**: Curling `/health` endpoint on the deployed backend URL returns:
-   ```json
-   {
-     "status": "UP",
-     "timestamp": "2026-07-22T11:20:00.000Z",
-     "service": "backend-api",
-     "checks": {
-       "database": "healthy",
-       "uptime": 1245.5
-     }
-   }
-   ```
+Below is the verification screenshot gallery demonstrating the live provisioned Azure infrastructure, security configurations, and pipeline executions:
+
+### 1. Azure Resource Group Overview (`rg-azure3tier-dev-centralus`)
+![Azure Resource Group Infrastructure Overview](photos/Screenshot%20from%202026-07-23%2012-43-49.png)
+*Detailed view of the primary resource group (`rg-azure3tier-dev-centralus`) containing all provisioned resources including Virtual Networks, Container App Environment, PostgreSQL Server, Application Insights, and Action Groups.*
+
+### 2. Azure Container Registry (`crazure3tierdev`)
+![Azure Container Registry](photos/Screenshot%20from%202026-07-23%2012-44-12.png)
+*Verification of the central Azure Container Registry (`crazure3tierdev`) hosting `backend-api` and `frontend-spa` container images with User-Assigned Managed Identity (`AcrPull`) role binding.*
+
+### 3. Backend REST API Container App (`ca-backend-dev`)
+![Backend Container App Overview](photos/Screenshot%20from%202026-07-23%2012-45-13.png)
+*Live Azure Container App instance (`ca-backend-dev`) running Tier 2 Node.js REST API with health check probes on port 5000.*
+
+### 4. Frontend SPA Container App (`ca-frontend-dev`)
+![Frontend Container App Overview](photos/Screenshot%20from%202026-07-23%2012-45-49.png)
+*Live Azure Container App instance (`ca-frontend-dev`) serving the Tier 1 Glassmorphism user interface via Nginx Alpine container on port 80.*
+
+### 5. Azure PostgreSQL Flexible Server (`psql-azure3tier-dev`)
+![PostgreSQL Flexible Server](photos/Screenshot%20from%202026-07-23%2012-47-21.png)
+*Tier 3 Azure PostgreSQL Flexible Server (`psql-azure3tier-dev`) running in private VNet delegated subnet (`snet-database`) with enforced SSL encryption (`require_secure_transport = on`).*
+
+### 6. Virtual Network & Subnet Architecture (`vnet-azure3tier-dev`)
+![Virtual Network Architecture](photos/Screenshot%20from%202026-07-23%2012-49-16.png)
+*Azure Virtual Network (`vnet-azure3tier-dev`) displaying 3 isolated subnets (`snet-frontend`, `snet-backend`, `snet-database`) protected by dedicated Network Security Groups.*
+
+### 7. Log Analytics Workspace & Application Insights
+![Log Analytics Workspace](photos/Screenshot%20from%202026-07-23%2012-50-03.png)
+*Centralized Log Analytics Workspace (`log-azure3tier-dev`) and Application Insights telemetry collecting container logs, HTTP requests, and performance metrics.*
+
+### 8. Azure Monitor High CPU Metric Alert
+![Metric Alert Rule](photos/Screenshot%20from%202026-07-23%2012-50-28.png)
+*Metric Alert rule (`alert-azure3tier-high-cpu-dev`) configured to trigger automated alert notifications when container CPU utilization exceeds the 80% threshold.*
+
+### 9. Azure Action Group Notification Setup (`ag-devops-alerts-dev`)
+![Action Group Notification Setup](photos/Screenshot%20from%202026-07-23%2012-50-35.png)
+*Azure Monitor Action Group (`ag-devops-alerts-dev`) configured to dispatch automated alerts to the DevOps engineering team upon metric threshold breach.*
+
+### 10. Automated GitHub Actions CI/CD Pipeline Execution
+![GitHub Actions Pipeline Run](photos/Screenshot%20from%202026-07-23%2012-55-33.png)
+*Successful execution of all GitHub Actions CI/CD jobs (`Build, Test & Validate`, `Container & IaC Security Scan`, `Build & Push Container Images`, and `Deploy Infrastructure & Application`).*
