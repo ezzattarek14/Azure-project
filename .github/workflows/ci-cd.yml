@@ -177,19 +177,22 @@ jobs:
             SUB_ID=$(az account show --query id -o tsv 2>/dev/null || echo "")
           fi
           
+          DB_PASS="${{ secrets.DB_ADMIN_PASSWORD }}"
+          DB_PASS="${DB_PASS:-P@ssw0rd123456!}"
+          
           if [ -n "$SUB_ID" ]; then
             echo "Importing existing ca-backend-dev Container App into Terraform state if present..."
             BACKEND_ID="/subscriptions/${SUB_ID}/resourceGroups/rg-azure3tier-dev-centralus/providers/Microsoft.App/containerApps/ca-backend-dev"
             terraform import \
               -var="container_image_tag=${{ github.sha }}" \
-              -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
+              -var="db_admin_password=${DB_PASS}" \
               module.compute.azurerm_container_app.backend "$BACKEND_ID" || true
 
             echo "Importing existing ca-frontend-dev Container App into Terraform state if present..."
-            FRONTEND_ID="/subscriptions/${SUB_ID}/resourceGroups/${RG_NAME:-rg-azure3tier-dev-centralus}/providers/Microsoft.App/containerApps/ca-frontend-dev"
+            FRONTEND_ID="/subscriptions/${SUB_ID}/resourceGroups/rg-azure3tier-dev-centralus/providers/Microsoft.App/containerApps/ca-frontend-dev"
             terraform import \
               -var="container_image_tag=${{ github.sha }}" \
-              -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}" \
+              -var="db_admin_password=${DB_PASS}" \
               module.compute.azurerm_container_app.frontend "$FRONTEND_ID" || true
           fi
 
@@ -202,9 +205,11 @@ jobs:
           ARM_USE_AZUREAD: true
         run: |
           cd terraform
+          DB_PASS="${{ secrets.DB_ADMIN_PASSWORD }}"
+          DB_PASS="${DB_PASS:-P@ssw0rd123456!}"
           terraform apply -auto-approve \
             -var="container_image_tag=${{ github.sha }}" \
-            -var="db_admin_password=${{ secrets.DB_ADMIN_PASSWORD }}"
+            -var="db_admin_password=${DB_PASS}"
 
       - name: Verify Live Deployment Health
         run: |
