@@ -10,14 +10,14 @@ This repository contains a complete, production-ready, automated solution for pr
 
 ---
 
-## 📐 1. Architecture Overview
+##  1. Architecture Overview
 
 The solution implements a classic, secure 3-tier cloud architecture provisioned in Microsoft Azure using strict network isolation and least-privilege principles.
 
 ```mermaid
 graph TD
     subgraph Client["Public Internet"]
-        User["🌐 User Browser"]
+        User[" User Browser"]
     end
 
     subgraph Azure["Azure Subscription (Central US)"]
@@ -26,24 +26,24 @@ graph TD
             subgraph VNet["Virtual Network: 10.0.0.0/16"]
                 
                 subgraph Snet1["Subnet 1: Frontend (10.0.1.0/24)"]
-                    NSG1["🛡️ NSG: Allow HTTP/HTTPS (80, 443)"]
-                    CA_FE["📦 Tier 1: Container App (Frontend SPA)<br/>Nginx Alpine • Non-root"]
+                    NSG1[" NSG: Allow HTTP/HTTPS (80, 443)"]
+                    CA_FE[" Tier 1: Container App (Frontend SPA)<br/>Nginx Alpine • Non-root"]
                 end
                 
                 subgraph Snet2["Subnet 2: Backend (10.0.2.0/24)"]
-                    NSG2["🛡️ NSG: Allow Frontend -> Port 5000"]
-                    CA_BE["📦 Tier 2: Container App (Backend REST API)<br/>Node.js Express • Health Checks"]
+                    NSG2[" NSG: Allow Frontend -> Port 5000"]
+                    CA_BE[" Tier 2: Container App (Backend REST API)<br/>Node.js Express • Health Checks"]
                 end
                 
                 subgraph Snet3["Subnet 3: Database (10.0.3.0/24)"]
-                    NSG3["🛡️ NSG: Allow Backend -> Port 5432 ONLY<br/>Deny Internet"]
-                    PG_DB["🗄️ Tier 3: Azure PostgreSQL Flexible Server<br/>B_Standard_B1ms • TLS 1.2 Enforced"]
+                    NSG3[" NSG: Allow Backend -> Port 5432 ONLY<br/>Deny Internet"]
+                    PG_DB[" Tier 3: Azure PostgreSQL Flexible Server<br/>B_Standard_B1ms • TLS 1.2 Enforced"]
                 end
 
             end
             
-            ACR["🐳 Azure Container Registry (ACR)<br/>Managed Identity Access"]
-            MON["📊 Log Analytics & App Insights<br/>Metric Alert: CPU > 80%"]
+            ACR[" Azure Container Registry (ACR)<br/>Managed Identity Access"]
+            MON[" Log Analytics & App Insights<br/>Metric Alert: CPU > 80%"]
 
         end
     end
@@ -69,7 +69,7 @@ graph TD
 
 ---
 
-## 🛠️ 2. Repository Structure
+##  2. Repository Structure
 
 ```
 .
@@ -110,7 +110,7 @@ graph TD
 
 ---
 
-## 🔒 3. Containerization Best Practices (Requirement B)
+##  3. Containerization Best Practices (Requirement B)
 
 Both frontend and backend microservices follow strict container hardening standards:
 
@@ -131,7 +131,7 @@ docker run --rm local-backend:latest id
 
 ---
 
-## ⚡ 4. Quick Start: Local Development & Running
+##  4. Quick Start: Local Development & Running
 
 ### Prerequisites
 - [Docker](https://www.docker.com/) & [Docker Compose](https://docs.docker.com/compose/)
@@ -161,7 +161,7 @@ npm test
 
 ---
 
-## 🚀 5. Automated CI/CD Pipeline (Requirement C)
+##  5. Automated CI/CD Pipeline (Requirement C)
 
 The CI/CD pipeline is implemented using **GitHub Actions** (`.github/workflows/ci-cd.yml`) and executes automatically when changes are pushed to `main`.
 
@@ -184,7 +184,7 @@ The CI/CD pipeline is implemented using **GitHub Actions** (`.github/workflows/c
 
 ---
 
-## 📊 6. Security & Monitoring (Requirement D)
+##  6. Security & Monitoring (Requirement D)
 
 ### Security Implementation
 - **Least-Privilege IAM**: Container Apps pull images from ACR using **User-Assigned Managed Identity** assigned only the `AcrPull` role.
@@ -199,7 +199,7 @@ The CI/CD pipeline is implemented using **GitHub Actions** (`.github/workflows/c
 
 ---
 
-## ⚖️ 7. Trade-offs Made Due to Time Limit
+##  7. Trade-offs Made Due to Time Limit
 
 | Feature / Area | Time-Constrained Implementation | Enterprise Ideal State |
 | :--- | :--- | :--- |
@@ -210,7 +210,7 @@ The CI/CD pipeline is implemented using **GitHub Actions** (`.github/workflows/c
 
 ---
 
-## 🏭 8. Real Production Environment Transformation
+##  8. Real Production Environment Transformation
 
 *A half-page architectural deep dive on scaling, cost optimization, and high availability for enterprise production.*
 
@@ -232,7 +232,7 @@ In an enterprise environment serving millions of requests:
 
 ---
 
-## 📸 9. Live Deployment & Infrastructure Evidence Gallery
+##  9. Live Deployment & Infrastructure Evidence Gallery
 
 Below is the verification screenshot gallery demonstrating the live provisioned Azure infrastructure, security configurations, and pipeline executions:
 
