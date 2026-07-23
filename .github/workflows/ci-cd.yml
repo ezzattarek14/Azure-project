@@ -194,6 +194,13 @@ jobs:
               -var="container_image_tag=${{ github.sha }}" \
               -var="db_admin_password=${DB_PASS}" \
               module.compute.azurerm_container_app.frontend "$FRONTEND_ID" || true
+
+            echo "Importing existing high_cpu_alert into Terraform state if present..."
+            ALERT_ID="/subscriptions/${SUB_ID}/resourceGroups/rg-azure3tier-dev-centralus/providers/Microsoft.Insights/metricAlerts/alert-azure3tier-high-cpu-dev"
+            terraform import \
+              -var="container_image_tag=${{ github.sha }}" \
+              -var="db_admin_password=${DB_PASS}" \
+              module.compute.azurerm_monitor_metric_alert.high_cpu_alert "$ALERT_ID" || true
           fi
 
       - name: Terraform Apply (Automated Production Deployment)
