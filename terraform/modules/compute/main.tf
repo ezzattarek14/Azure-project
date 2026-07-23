@@ -33,7 +33,7 @@ resource "azurerm_container_app" "backend" {
   template {
     container {
       name   = "backend-api"
-      image  = "${var.acr_login_server}/backend-api:${var.container_image_tag}"
+      image  = var.container_image_tag == "bootstrap" ? "mcr.microsoft.com/azuredocs/aci-helloworld:latest" : "${var.acr_login_server}/backend-api:${var.container_image_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
 
@@ -118,7 +118,7 @@ resource "azurerm_container_app" "frontend" {
   template {
     container {
       name   = "frontend-spa"
-      image  = "${var.acr_login_server}/frontend-spa:${var.container_image_tag}"
+      image  = var.container_image_tag == "bootstrap" ? "mcr.microsoft.com/azuredocs/aci-helloworld:latest" : "${var.acr_login_server}/frontend-spa:${var.container_image_tag}"
       cpu    = 0.25
       memory = "0.5Gi"
 

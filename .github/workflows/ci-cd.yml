@@ -83,19 +83,16 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Azure OIDC Authentication (No Hardcoded Credentials)
-        uses: azure/login@v2
-        with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-
       - name: Log in to Azure Container Registry (ACR)
-        uses: azure/docker-login@v2
+        uses: docker/login-action@v3
         with:
-          login-server: ${{ secrets.ACR_LOGIN_SERVER }}
+          registry: ${{ secrets.ACR_LOGIN_SERVER || 'crazure3tierdev.azurecr.io' }}
           username: ${{ secrets.ACR_USERNAME }}
           password: ${{ secrets.ACR_PASSWORD }}
+
+      - name: Set ACR Server Environment Variable
+        run: |
+          echo "ACR_SERVER=${{ secrets.ACR_LOGIN_SERVER || 'crazure3tierdev.azurecr.io' }}" >> $GITHUB_ENV
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -107,8 +104,8 @@ jobs:
           file: ./app/backend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.ACR_LOGIN_SERVER }}/backend-api:${{ github.sha }}
-            ${{ secrets.ACR_LOGIN_SERVER }}/backend-api:latest
+            ${{ env.ACR_SERVER }}/backend-api:${{ github.sha }}
+            ${{ env.ACR_SERVER }}/backend-api:latest
 
       - name: Build & Push Frontend SPA Image
         uses: docker/build-push-action@v5
@@ -117,8 +114,8 @@ jobs:
           file: ./app/frontend/Dockerfile
           push: true
           tags: |
-            ${{ secrets.ACR_LOGIN_SERVER }}/frontend-spa:${{ github.sha }}
-            ${{ secrets.ACR_LOGIN_SERVER }}/frontend-spa:latest
+            ${{ env.ACR_SERVER }}/frontend-spa:${{ github.sha }}
+            ${{ env.ACR_SERVER }}/frontend-spa:latest
 
   # =========================================================
   # Job 4: Infrastructure Provisioning & App Deployment
